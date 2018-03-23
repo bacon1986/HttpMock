@@ -250,7 +250,7 @@ namespace HttpMock.Unit.Tests
             expectedRequest.Method = "GET";
             expectedRequest.Path = "/path";
             expectedRequest.QueryParams = new Dictionary<string, string>();
-            expectedRequest.Stub(s => s.CanVerifyConstraintsFor("")).IgnoreArguments().Return(true);
+            expectedRequest.Stub(s => s.CanVerifyConstraintsFor("", "")).IgnoreArguments().Return(true);
 
             var requestMatcher = new RequestMatcher(new EndpointMatchingRule());
 
@@ -259,7 +259,7 @@ namespace HttpMock.Unit.Tests
 
             var httpRequestHead = new HttpRequestHead{Method = "GET", Path = "/path/", Uri = "/path"};
 
-            var matchedRequest = requestMatcher.Match(httpRequestHead, requestHandlerList);
+            var matchedRequest = requestMatcher.Match(httpRequestHead, null, requestHandlerList);
 
 
             Assert.That(matchedRequest.Path, Is.EqualTo(expectedRequest.Path));
@@ -273,14 +273,14 @@ namespace HttpMock.Unit.Tests
             expectedRequest.Method = "GET";
             expectedRequest.Path = "/path/specific";
             expectedRequest.QueryParams = new Dictionary<string, string>();
-            expectedRequest.Stub(s => s.CanVerifyConstraintsFor("")).IgnoreArguments().Return(true);
+            expectedRequest.Stub(s => s.CanVerifyConstraintsFor("", "")).IgnoreArguments().Return(true);
 
 
             var otherRequest = MockRepository.GenerateStub<IRequestHandler>();
             otherRequest.Method = "GET";
             otherRequest.Path = "/path/";
             otherRequest.QueryParams = new Dictionary<string, string>();
-            otherRequest.Stub(s => s.CanVerifyConstraintsFor("")).IgnoreArguments().Return(true);
+            otherRequest.Stub(s => s.CanVerifyConstraintsFor("", "")).IgnoreArguments().Return(true);
 
             var requestMatcher = new RequestMatcher(new EndpointMatchingRule());
 
@@ -289,7 +289,7 @@ namespace HttpMock.Unit.Tests
 
             var httpRequestHead = new HttpRequestHead { Method = "GET", Path = "/path/specific", Uri = "/path/specific" };
 
-            var matchedRequest = requestMatcher.Match(httpRequestHead, requestHandlerList);
+            var matchedRequest = requestMatcher.Match(httpRequestHead, null, requestHandlerList);
 
 
             Assert.That(matchedRequest.Path, Is.EqualTo(expectedRequest.Path));

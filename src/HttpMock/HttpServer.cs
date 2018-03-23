@@ -106,7 +106,7 @@ namespace HttpMock
 					try
 					{
 						_disposableServer = KayakServer.Factory
-							.CreateHttp(_requestProcessor, _scheduler)
+                            .CreateHttp(_requestProcessor, _scheduler)
 							.Listen(ipEndPoint);
 					}
 					catch (Exception ex)

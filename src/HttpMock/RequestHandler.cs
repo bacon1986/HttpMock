@@ -10,8 +10,9 @@ namespace HttpMock
 	public class RequestHandler : IRequestHandler, IRequestStub, IRequestVerify
 	{
 		private readonly ResponseBuilder _webResponseBuilder = new ResponseBuilder();
-		private readonly IList<Func<string, bool>> _constraints = new List<Func<string, bool>>();
-		private readonly Queue<ReceivedRequest> _observedRequests = new Queue<ReceivedRequest>();
+		private readonly IList<Func<string, bool>> _urlConstraints = new List<Func<string, bool>>();
+        private readonly IList<Func<string, bool>> _bodyConstraints = new List<Func<string, bool>>();
+        private readonly Queue<ReceivedRequest> _observedRequests = new Queue<ReceivedRequest>();
 
 		public RequestHandler(string path, IRequestProcessor requestProcessor) {
 			Path = path;
@@ -99,11 +100,17 @@ namespace HttpMock
 
 		public IRequestStub WithUrlConstraint(Func<string, bool> constraint)
 		{
-			_constraints.Add(constraint);
+			_urlConstraints.Add(constraint);
 			return this;
-		}
+        }
 
-		public override string ToString() {
+        public IRequestStub WithBodyConstraint(Func<string, bool> constraint)
+        {
+            _bodyConstraints.Add(constraint);
+            return this;
+        }
+
+        public override string ToString() {
 			var sb = new StringBuilder();
 			sb.AppendFormat("{0}:{1}{2}", Path, Method, Environment.NewLine);
 			foreach (var param in QueryParams) {
@@ -125,9 +132,9 @@ namespace HttpMock
 			return _observedRequests.Peek().Body;
 		}
 
-		public bool CanVerifyConstraintsFor(string url)
+		public bool CanVerifyConstraintsFor(string url, string body)
 		{
-			return _constraints.All(c => c(url));
+			return _urlConstraints.All(c => c(url)) && _bodyConstraints.All(c => c(body));
 		}
 
 		public ReceivedRequest LastRequest()

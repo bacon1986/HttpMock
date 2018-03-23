@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using Kayak;
 using Kayak.Http;
 
 namespace HttpMock
 {
     public interface IRequestMatcher
     {
-        IRequestHandler Match(HttpRequestHead request, IEnumerable<IRequestHandler> requestHandlerList);
+        IRequestHandler Match(HttpRequestHead request, string body, IEnumerable<IRequestHandler> requestHandlerList);
     }
 
     public class RequestMatcher : IRequestMatcher
@@ -18,11 +19,11 @@ namespace HttpMock
             _matchingRule = matchingRule;
         }
 
-        public IRequestHandler Match(HttpRequestHead request, IEnumerable<IRequestHandler> requestHandlerList)
+        public IRequestHandler Match(HttpRequestHead request, string body, IEnumerable<IRequestHandler> requestHandlerList)
         {
             var matches = requestHandlerList
                 .Where(handler => _matchingRule.IsEndpointMatch(handler, request))
-                .Where(handler => handler.CanVerifyConstraintsFor(request.Uri));
+                .Where(handler => handler.CanVerifyConstraintsFor(request.Uri, body));
 
             return matches.FirstOrDefault();
         }

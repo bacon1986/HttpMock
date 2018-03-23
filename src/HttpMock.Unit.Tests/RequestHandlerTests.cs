@@ -17,7 +17,7 @@ namespace HttpMock.Unit.Tests
 
             var uriWithBlah = "http://www.blah.com";
 
-            Assert.That(h.CanVerifyConstraintsFor(uriWithBlah), Is.EqualTo(false));
+            Assert.That(h.CanVerifyConstraintsFor(uriWithBlah, ""), Is.EqualTo(false));
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace HttpMock.Unit.Tests
 
             var uriWithBlah = "http://www.xyz.com/moomins/goncalo";
 
-            Assert.That(h.CanVerifyConstraintsFor(uriWithBlah), Is.EqualTo(false));
+            Assert.That(h.CanVerifyConstraintsFor(uriWithBlah, ""), Is.EqualTo(false));
         }
     }
 }
