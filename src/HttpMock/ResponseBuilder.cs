@@ -99,5 +99,13 @@ namespace HttpMock
 				_headers.Add(header, headerValue);
 			}
 		}
+
+        public void AddHeaders(Dictionary<string,string> headers)
+        {
+            foreach (var header in headers)
+            {
+                AddHeader(header.Key, header.Value);
+            }
+        }
 	}
 }
