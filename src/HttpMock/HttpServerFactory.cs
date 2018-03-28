@@ -5,7 +5,9 @@ namespace HttpMock
 {
 	public class HttpServerFactory
 	{
-		private readonly Dictionary<int, IHttpServer> _httpServers = new Dictionary<int, IHttpServer>();
+        private readonly Dictionary<int, IHttpServer> _httpServers = new Dictionary<int, IHttpServer>();
+
+        private readonly object lockObj = new Object();
 
 		public IHttpServer Get(Uri uri)
 		{
@@ -21,7 +23,10 @@ namespace HttpMock
 
 		public IHttpServer Create(Uri uri) {
 			IHttpServer httpServer = BuildServer(uri);
-			_httpServers[uri.Port] = httpServer;
+            lock (lockObj)
+            {
+                _httpServers[uri.Port] = httpServer;
+            }
 			return httpServer;
 		}
 
