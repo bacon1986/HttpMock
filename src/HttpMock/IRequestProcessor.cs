@@ -1,4 +1,5 @@
 ﻿using Kayak.Http;
+using System.Collections.Generic;
 
 namespace HttpMock
 {
@@ -8,5 +9,7 @@ namespace HttpMock
 		void Add(RequestHandler requestHandler);
 		void ClearHandlers();
 		string WhatDoIHave();
-	}
+        IEnumerable<RequestHandler> GetAllRequests();
+
+    }
 }

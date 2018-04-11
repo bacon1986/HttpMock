@@ -139,5 +139,13 @@ namespace HttpMock
             }
             return stringBuilder.ToString();
         }
+
+        public IEnumerable<RequestHandler> GetAllRequests()
+        {
+            foreach (RequestHandler handler in _handlers)
+            {
+                yield return handler;
+            }
+        }
     }
 }

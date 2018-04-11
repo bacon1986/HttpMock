@@ -117,6 +117,14 @@ namespace HttpMock
             return this;
         }
 
+        public Dictionary<string, string> ResponseHeaders
+        {
+            get
+            {
+                return ResponseBuilder.Headers;
+            }
+        }
+
         public IRequestStub WithUrlConstraint(Func<string, bool> constraint)
         {
             _urlConstraints.Add(constraint);

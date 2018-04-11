@@ -107,5 +107,13 @@ namespace HttpMock
                 AddHeader(header.Key, header.Value);
             }
         }
+
+        internal Dictionary<string,string> Headers
+        {
+            get
+            {
+                return _headers;
+            }
+        }
 	}
 }
