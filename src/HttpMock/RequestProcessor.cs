@@ -15,6 +15,9 @@ namespace HttpMock
         private static readonly ILog _log = LogFactory.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private IRequestHandlerList _handlers;
         private readonly RequestMatcher _requestMatcher;
+        private static int missingHandlerCount = 0;
+
+        public static int MissingHandlerCount { get => missingHandlerCount; } 
 
         public RequestProcessor(IMatchingRule matchingRule, IRequestHandlerList requestHandlers)
         {
@@ -108,6 +111,8 @@ namespace HttpMock
 
         private static void ReturnHttpMockNotFound(IHttpResponseDelegate response)
         {
+            missingHandlerCount++;
+
             var dictionary = new Dictionary<string, string>
             {
                 {HttpHeaderNames.ContentLength, "0"},
@@ -122,6 +127,7 @@ namespace HttpMock
         public void ClearHandlers()
         {
             _handlers = new RequestHandlerList();
+            missingHandlerCount = 0;
         }
 
         public void Add(RequestHandler requestHandler)

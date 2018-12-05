@@ -8,7 +8,8 @@ namespace HttpMock
 		IHttpServer WithNewContext();
 		void Start();
 		string WhatDoIHave();
-		bool IsAvailable();
+        int HandlerMissCount { get; }
+        bool IsAvailable();
 		IRequestProcessor GetRequestProcessor();
 	}
 }

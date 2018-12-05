@@ -18,6 +18,8 @@ namespace HttpMock
 		private IDisposable _disposableServer;
 		private Thread _thread;
 
+        public string Uri { get { return _uri.ToString(); } }
+
 		public HttpServer(Uri uri)
 		{
 			_uri = uri;
@@ -94,6 +96,8 @@ namespace HttpMock
 		{
 			return _requestProcessor.WhatDoIHave();
 		}
+
+        public int HandlerMissCount { get => RequestProcessor.MissingHandlerCount; }
 
 		private void StartListening()
 		{
