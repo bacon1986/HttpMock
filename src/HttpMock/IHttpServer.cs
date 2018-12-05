@@ -11,5 +11,6 @@ namespace HttpMock
         int HandlerMissCount { get; }
         bool IsAvailable();
 		IRequestProcessor GetRequestProcessor();
+        string Uri { get; }
 	}
 }
