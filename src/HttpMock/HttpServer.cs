@@ -18,7 +18,7 @@ namespace HttpMock
 		private IDisposable _disposableServer;
 		private Thread _thread;
 
-        public string Uri { get { return _uri.ToString(); } }
+        public string Uri { get { return _uri.ToString().TrimEnd('/'); } }
 
 		public HttpServer(Uri uri)
 		{
